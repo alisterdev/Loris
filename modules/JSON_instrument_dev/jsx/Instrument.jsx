@@ -1,4 +1,5 @@
 LorisInstrument = React.createClass({
+
     propTypes: {
         name : React.PropTypes.string.isRequired
     },
@@ -9,6 +10,7 @@ LorisInstrument = React.createClass({
 
     getDefaultProps: function() {
         return ({
+            /*
             "Meta" : {
                 "InstrumentVersion": "BMI v0.0.1-dev",
                 "InstrumentFormatVersion" : "v0.0.1-dev",
@@ -42,20 +44,30 @@ LorisInstrument = React.createClass({
                     "Name": "bmi",
                     "Description": "Your BMI",
                     "Options": {
-                        /* None currently */
+
                     }
                 }
             ]
+            */
         });
     },
 
     render: function () {
         return (
             <div>
-                <h1>{this.props.Meta.LongName}</h1>
+                <h1>Hello, world!</h1>
+                <Element/>
             </div>
         );
     }
 });
 
 RInstrument = React.createFactory(LorisInstrument);
+
+Element = React.createClass({
+    render: function () {
+        return (
+            <span>MyElement</span>
+        );
+    }
+});
