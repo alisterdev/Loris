@@ -27,7 +27,7 @@ class NDB_Menu_Filter_Form_JSON_Instrument_dev extends NDB_Menu_Filter_Form
         return array_merge(
             $depends,
             array(
-                $baseURL . '/js/components/Instrument.js',
+                $baseURL . '/JSON_instrument_dev/js/Instrument.js',
             )
         );
     }

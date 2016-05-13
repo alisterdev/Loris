@@ -58,3 +58,4 @@ LorisInstrument = React.createClass({
     }
 });
 
+RInstrument = React.createFactory(LorisInstrument);
