@@ -5,10 +5,11 @@
  * @package behavioural
  */
 
-class NDB_Menu_Filter_JSON_Instrument_dev extends NDB_Menu_Filter
+class NDB_Menu_Filter_Form_JSON_Instrument_dev extends NDB_Menu_Filter_Form
 {
 
     function setup() {
+        $this->form = new LorisForm('test_form');
         return true;
     }
 
