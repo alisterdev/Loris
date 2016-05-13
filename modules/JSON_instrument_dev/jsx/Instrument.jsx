@@ -56,7 +56,7 @@ LorisInstrument = React.createClass({
         return (
             <div>
                 <h1>Hello, world!</h1>
-                <Element/>
+                <Element param1='2' />
             </div>
         );
     }
@@ -66,6 +66,9 @@ RInstrument = React.createFactory(LorisInstrument);
 
 Element = React.createClass({
     render: function () {
+
+        console.log(this.props.param1);
+
         return (
             <span>MyElement</span>
         );

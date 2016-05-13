@@ -1,7 +1,7 @@
 
 <div id="instrument-container"></div>
 <script>
-
+  /* Comment */
   var instrument = RInstrument({
     "name" : "BMI"
   });

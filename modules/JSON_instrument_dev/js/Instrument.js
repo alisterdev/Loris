@@ -1,5 +1,5 @@
 LorisInstrument = React.createClass({
-    displayName: "LorisInstrument",
+    displayName: 'LorisInstrument',
 
     propTypes: {
         name: React.PropTypes.string.isRequired
@@ -54,14 +54,14 @@ LorisInstrument = React.createClass({
 
     render: function () {
         return React.createElement(
-            "div",
+            'div',
             null,
             React.createElement(
-                "h1",
+                'h1',
                 null,
-                "Hello, world!"
+                'Hello, world!'
             ),
-            React.createElement(Element, null)
+            React.createElement(Element, { param1: '2' })
         );
     }
 });
@@ -69,13 +69,16 @@ LorisInstrument = React.createClass({
 RInstrument = React.createFactory(LorisInstrument);
 
 Element = React.createClass({
-    displayName: "Element",
+    displayName: 'Element',
 
     render: function () {
+
+        console.log(this.props.param1);
+
         return React.createElement(
-            "span",
+            'span',
             null,
-            "MyElement"
+            'MyElement'
         );
     }
 });
