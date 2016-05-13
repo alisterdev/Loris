@@ -1,6 +1,7 @@
 LorisInstrument = React.createClass({
     displayName: 'LorisInstrument',
 
+
     propTypes: {
         name: React.PropTypes.string.isRequired
     },
@@ -59,26 +60,63 @@ LorisInstrument = React.createClass({
             React.createElement(
                 'h1',
                 null,
-                'Hello, world!'
+                'Lawton-Brody Instrumental Activities of Daily Living Scale'
             ),
-            React.createElement(Element, { param1: '2' })
+            React.createElement('br', null),
+            React.createElement(Select, { label: 'What version of the test was completed?', options: ['Version 1', 'Version 2', 'Version 3'] })
         );
     }
 });
 
 RInstrument = React.createFactory(LorisInstrument);
 
-Element = React.createClass({
-    displayName: 'Element',
+Select = React.createClass({
+    displayName: 'Select',
+
+
+    propTypes: {
+        name: React.PropTypes.array.isRequired
+    },
+
+    getDefaultProps: function () {
+        return {
+            'label': '',
+            'options': []
+        };
+    },
 
     render: function () {
-
-        console.log(this.props.param1);
-
         return React.createElement(
-            'span',
-            null,
-            'MyElement'
+            'div',
+            { className: 'row' },
+            React.createElement(
+                'div',
+                { className: 'col-sm-4 col-md-4 col-lg-4' },
+                this.props.label
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-sm-8 col-md-8 col-lg-8' },
+                React.createElement(
+                    'select',
+                    { name: '', id: '', className: 'form-control' },
+                    React.createElement(
+                        'option',
+                        { value: '' },
+                        this.props.options[0]
+                    ),
+                    React.createElement(
+                        'option',
+                        { value: '' },
+                        this.props.options[1]
+                    ),
+                    React.createElement(
+                        'option',
+                        { value: '' },
+                        this.props.options[2]
+                    )
+                )
+            )
         );
     }
 });

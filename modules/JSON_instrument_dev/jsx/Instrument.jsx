@@ -55,8 +55,9 @@ LorisInstrument = React.createClass({
     render: function () {
         return (
             <div>
-                <h1>Hello, world!</h1>
-                <Element param1='2' />
+                <h1>Lawton-Brody Instrumental Activities of Daily Living Scale</h1>
+                <br/>
+                <Select label="What version of the test was completed?" options={['Version 1', 'Version 2', 'Version 3']}/>
             </div>
         );
     }
@@ -64,13 +65,33 @@ LorisInstrument = React.createClass({
 
 RInstrument = React.createFactory(LorisInstrument);
 
-Element = React.createClass({
-    render: function () {
+Select = React.createClass({
 
-        console.log(this.props.param1);
+  propTypes: {
+    name : React.PropTypes.array.isRequired
+  },
 
-        return (
-            <span>MyElement</span>
-        );
-    }
+  getDefaultProps: function() {
+    return {
+      'label': '',
+      'options' : []
+    };
+  },
+
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-sm-4 col-md-4 col-lg-4">
+          {this.props.label}
+        </div>
+        <div className="col-sm-8 col-md-8 col-lg-8">
+          <select name="" id="" className="form-control">
+            <option value="">{this.props.options[0]}</option>
+            <option value="">{this.props.options[1]}</option>
+            <option value="">{this.props.options[2]}</option>
+          </select>
+        </div>
+      </div>
+    );
+  }
 });
