@@ -5,7 +5,7 @@
  * @package behavioural
  */
 
-class NDB_Menu_Filter_Form_JSON_Instrument_dev extends NDB_Menu_Filter_Form
+class NDB_Menu_Filter_Form_JSON_instrument_dev extends NDB_Menu_Filter_Form
 {
 
     function setup() {
