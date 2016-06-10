@@ -233,7 +233,6 @@ class NDB_Form_User_Accounts extends NDB_Form
         // disabled)
         if (!$this->_isEditingOwnAccount()) {
             $success = $user->removePermissions();
-
             // Check for new permissions
             if (!empty($permIDs)) {
                 foreach ($permIDs as $key => $value) {
