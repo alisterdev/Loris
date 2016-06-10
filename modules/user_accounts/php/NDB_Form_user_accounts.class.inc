@@ -226,12 +226,12 @@ class NDB_Form_User_Accounts extends NDB_Form
             $user->updatePassword($set['Password_md5'], $expiry);
         }
 
-
-        // Update the user permissions if applicable
-        // This part is skipped if the current page is my_preferences
-
-        // First remove all permissions
-        if ($this->page != 'my_preferences') {
+        // update the user permissions if applicable
+        // If the user is editing his/her own account, skip the part where
+        // changes to the permissions are handled (there should not be any
+        // change to the user's permission set since all the checkboxes are
+        // disabled)
+        if (!$this->_isEditingOwnAccount()) {
             $success = $user->removePermissions();
 
             // Check for new permissions
