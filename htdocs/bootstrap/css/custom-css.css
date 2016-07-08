@@ -35,12 +35,12 @@ table th{
 .pis {
     height: 80px;
 }
-.table-scroll { 
+.table-scroll {
     overflow-x:auto;
     padding-bottom:1px;
 }
-.table-scroll-static { 
-    overflow-x:auto;  
+.table-scroll-static {
+    overflow-x:auto;
     margin-left:7em;
     padding-bottom:1px;
 }
@@ -53,12 +53,12 @@ table th{
     margin-left:10em;
 }
 .static-col {
-    position:absolute; 
-    width:7em; 
+    position:absolute;
+    width:7em;
     left:0;
     top:auto;
     word-wrap: break-word;
-    border-right: 0px none black; 
+    border-right: 0px none black;
     border-top-width:3px; /*only relevant for first row*/
 }
 .colm-static{
@@ -125,7 +125,7 @@ ul#navlist {
 	display: inline;
 	list-style-type: none;
 }
-/* 
+/*
  *  Styling for modals
  */
 .modal-header {
@@ -372,4 +372,78 @@ div.navbar div.container div.navbar-brand {
  */
 .dropdownSearch {
   padding: 10px;
+}
+
+.spinner-bg {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.7);
+}
+
+.spinner-bg .spinner-wrapper {
+  font-size: 35px;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  font-weight: 300;
+}
+
+.spinner {
+  margin: 0 auto;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #fff;
+  height: 100%;
+  width: 9px;
+  display: inline-block;
+  margin: 0 3px 0 0;
+
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+       transform: scaleY(1.0);
+       -webkit-transform: scaleY(1.0);
+     }
 }

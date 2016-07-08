@@ -570,6 +570,7 @@ class NDB_Page
                   $baseurl . '/bootstrap/js/bootstrap.min.js',
                   $baseurl . '/js/components/react.breadcrumb.js',
                   $baseurl . '/js/components/Form.js',
+                  $baseurl . '/js/components/Spinner.js',
                  );
         if (file_exists($paths['base'] . "modules/$TestName/js/$TestName.js")) {
             error_log(
