@@ -1,4 +1,4 @@
-StaticDataTable = React.createClass({
+var StaticDataTable = React.createClass({
     mixins: [React.addons.PureRenderMixin],
     propTypes: {
         Headers: React.PropTypes.array.isRequired,
@@ -15,6 +15,16 @@ StaticDataTable = React.createClass({
             } else {
                 $("#dynamictable").DynamicTable();
             }
+        }
+
+        // Retrieve module preferences and set rows per page
+        var modulePrefs = JSON.parse(localStorage.getItem('modulePrefs'));
+        if (modulePrefs !== null) {
+          var rowsPerPage = modulePrefs[loris.TestName].rowsPerPage;
+          this.modulePrefs = modulePrefs; // make prefs accesible within component
+          this.setState({
+            RowsPerPage: rowsPerPage
+          });
         }
     },
     componentDidUpdate: function() {
@@ -48,7 +58,7 @@ StaticDataTable = React.createClass({
         });
     },
     setSortColumn: function(colNumber) {
-        that = this;
+        var that = this;
         return function(e) {
             if(that.state.SortColumn === colNumber) {
                 that.setState({
@@ -62,10 +72,23 @@ StaticDataTable = React.createClass({
         }
     },
     changeRowsPerPage: function(val) {
-       this.setState({
-           'RowsPerPage' : val.target.value,
-           'PageNumber' : 1
-       });
+
+      var rowsPerPage = val.target.value;
+      var modulePrefs = {};
+
+      if (this.modulePrefs) {
+        modulePrefs = this.modulePrefs;
+      } else {
+        modulePrefs[loris.TestName] = {};
+      }
+
+      modulePrefs[loris.TestName].rowsPerPage = rowsPerPage;
+      localStorage.setItem('modulePrefs', JSON.stringify(modulePrefs));
+
+      this.setState({
+        'RowsPerPage': rowsPerPage,
+        'PageNumber': 1
+      });
     },
     downloadCSV: function() {
         var headers = this.props.Fields,
@@ -229,7 +252,10 @@ StaticDataTable = React.createClass({
         }
 
         var RowsPerPageDropdown = (
-            <select className="input-sm perPage" onChange={this.changeRowsPerPage}>
+            <select className="input-sm perPage"
+                    onChange={this.changeRowsPerPage}
+                    value={this.state.RowsPerPage}
+            >
                 <option>20</option>
                 <option>50</option>
                 <option>100</option>
@@ -243,7 +269,7 @@ StaticDataTable = React.createClass({
                 <div className="table-header panel-heading">
                     <div className="row">
                         <div className="col-xs-12">
-                            {rows.length} rows displayed of {this.props.Data.length}. (Maximum rows per page: {RowsPerPageDropdown}) 
+                            {rows.length} rows displayed of {this.props.Data.length}. (Maximum rows per page: {RowsPerPageDropdown})
                             <div className="pull-right">
                                 <PaginationLinks Total={this.props.Data.length} onChangePage={this.changePage} RowsPerPage={rowsPerPage} Active={this.state.PageNumber} />
                             </div>
@@ -278,4 +304,4 @@ StaticDataTable = React.createClass({
     }
 });
 
-RStaticDataTable = React.createFactory(StaticDataTable);
+var RStaticDataTable = React.createFactory(StaticDataTable);
