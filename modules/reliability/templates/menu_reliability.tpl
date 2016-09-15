@@ -88,8 +88,6 @@
     </div>
 </div>
 
-
-
 {if $reliability_swap_candidates}
     <div class="col-sm-4">
         <div class="panel panel-primary">
@@ -141,7 +139,8 @@
         </div>
 </div>
 {/if}
-{if $EARLI_Reliability}
+
+  {if $EARLI_Reliability}
 <form method="post" action="{$baseurl}/reliability/">
     <table border="0" valign="top" class="hideable" id="addcandidate">
     <thead>
@@ -270,10 +269,11 @@ var pageLinks = RPaginationLinks(
 });
 React.render(pageLinks, document.getElementById("pageLinks"));
 
+var threshold = {$threshold};
 
 var table = RDynamicDataTable({
   "DataURL" : "{$baseurl}/reliability/?format=json",
-  "getFormattedCell" : null,
+  "getFormattedCell" : formatColumn,
   "freezeColumn" : "File Name"
 });
 React.render(table, document.getElementById("datatable"));

@@ -105,12 +105,19 @@ class NDB_Menu_Filter_reliability extends NDB_Menu_Filter
         }
 
         $threshold = $this->getThreshholds();
+        $this->tpl_data['threshold'] = json_encode($threshold);
+
+        $this->headers = array_merge($this->headers, [
+            'Instrument',
+            'Reliability Score',
+            'Reliable'
+        ]);
 
         $this->columns = array_merge($this->columns, [
             //'reliability.CommentID',
             'reliability.Instrument',
             'reliability.Reliability_score',
-            '"No"'
+            //'0 as Reliable'
 
 //            'session.Current_stage',
 //            'reliability.invalid',
@@ -120,17 +127,12 @@ class NDB_Menu_Filter_reliability extends NDB_Menu_Filter
 
 
 
-        $this->headers = array_merge($this->headers, [
-            'Instrument',
-            'Reliability Score',
-            'Reliable'
-        ]);
-
         $this->query = $query;
         $this->group_by = '';
         $this->order_by = 'reliability.Instrument, session.CandID, session.Visit_label';
 
-        $this->validFilters = array('reliability.CommentID','reliability.reliability_center_id', 'session.SubprojectID', 'candidate.CenterID', 'session.CandID', 'candidate.PSCID', 'candidate.Gender', 'session.Visit_label', 'candidate.ProjectID','reliability.Instrument', 'reliability.Reliability_score', 'session.Current_stage', 'reliability.invalid','candidate.CandID');
+        $this->validFilters = array(
+            'reliability.CommentID','reliability.reliability_center_id', 'session.SubprojectID', 'candidate.CenterID', 'session.CandID', 'candidate.PSCID', 'candidate.Gender', 'session.Visit_label', 'candidate.ProjectID','reliability.Instrument', 'reliability.Reliability_score', 'session.Current_stage', 'reliability.invalid','candidate.CandID');
 
         $this->formToFilter = array(
                                     'SubprojectID' => 'session.SubprojectID',
@@ -144,10 +146,46 @@ class NDB_Menu_Filter_reliability extends NDB_Menu_Filter
                                     'reliability_score'=>'reliability.Reliability_score',
                                     'Current_stage'=>'session.Current_stage',
                                     'Invalid' => 'reliability.invalid',
-                                    'ProjectID'=>'candidate.ProjectID'
+                                    'ProjectID'=>'candidate.ProjectID',
+                                    'Reliable'=>'0'
                                     // 'Lock_record' => 'session.Lock_record'
                                     );
+
+
+
+
         return true;
+    }
+
+    /**
+     * Converts the results of this menu filter to a JSON format to be retrieved
+     * with ?format=json
+     *
+     * @return a json encoded string of the headers and data from this table
+     */
+    function toJSON()
+    {
+        $tableData = $this->toArray();
+        $threshold = $this->getThreshholds();
+
+        foreach($tableData['Data'] as $key => $record) {
+
+            $instrumentThreshold = $threshold[$record[7]];
+            $instrumentScore = $record[8];
+
+            if ($instrumentScore == null) {
+               $isReliable = "";
+            } else if ($instrumentScore >= $instrumentThreshold) {
+                $isReliable = "Yes";
+            } else {
+                $isReliable = "No";
+            }
+            $record[] = $isReliable;
+
+            $tableData['Data'][$key] = $record;
+        }
+
+        return json_encode($tableData);
     }
 
 
