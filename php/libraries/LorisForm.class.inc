@@ -622,6 +622,7 @@ class LorisForm
         $multiple      = '';
         $id            = '';
         $disabled      = '';
+        $required      = '';
 
         foreach ($options as $optionKey => $optionVal) {
             $selected = '';
@@ -658,10 +659,11 @@ class LorisForm
         }
         if (isset($el['multiple'])) {
             $multiple = "multiple=\"multiple\"";
+            $required = "required";
         }
 
         $retVal = "<select name=\"$el[name]\" $cls $id $changehandler $multiple "
-            . $disabled;
+            . "$disabled $required";
 
         if (isset($el['required']) && $el['required']) {
             $retVal .= ' required';

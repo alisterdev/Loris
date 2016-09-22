@@ -423,7 +423,7 @@ class NDB_BVL_Instrument_LINST extends \NDB_BVL_Instrument
             $db = \Database::singleton();
 
             if (!isset($this->form)) {
-                $this->form = new \HTML_Quickform('test_form');
+                $this->form = new \LorisForm('test_form');
             }
 
             $this->dateTimeFields = array("Date_taken");
@@ -678,7 +678,7 @@ class NDB_BVL_Instrument_LINST extends \NDB_BVL_Instrument
                                         $pieces[1],
                                         $pieces[2],
                                         $opt,
-                                        "multiple"
+                                    ["multiple" => "multiple"]
                                     );
                             } else {
                                 $Group['Elements'][]
@@ -696,7 +696,7 @@ class NDB_BVL_Instrument_LINST extends \NDB_BVL_Instrument
                                     $pieces[1],
                                     $pieces[2],
                                     $opt,
-                                    "multiple"
+                                    ["multiple" => "multiple"]
                                 );
                             } else {
                                 $this->form->addElement(
