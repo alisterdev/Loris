@@ -54,15 +54,12 @@ var ConsentStatus = React.createClass(
         }
             );
     },
-    setFormData: function(formElement,
-    value) {
+    setFormData: function(formElement, value) {
       var formData = this.state.formData;
       formData[formElement] = value;
-      this.setState(
-        {
-          formData: formData
-        }
-            );
+      this.setState({
+        formData: formData
+      });
     },
     onSubmit: function(e) {
       e.preventDefault();
@@ -71,24 +68,24 @@ var ConsentStatus = React.createClass(
       if (!this.state.isLoaded) {
         if (this.state.error !== undefined) {
           return (
-                    <div className ="alert alert-danger text-center">
-                        <strong>
-                            {this.state.error}
-                        </strong>
-                    </div>
-                    );
+            <div className ="alert alert-danger text-center">
+                <strong>
+                    {this.state.error}
+                </strong>
+            </div>
+          );
         }
 
         return (
-                <button className ="btn-info has-spinner">
-                    Loading
-                    <span
-                        className ="glyphicon glyphicon-refresh
-                        glyphicon-refresh-animate"
-                    >
-                    </span>
-                </button>
-                );
+          <button className ="btn-info has-spinner">
+              Loading
+              <span
+                  className ="glyphicon glyphicon-refresh
+                  glyphicon-refresh-animate"
+              >
+              </span>
+          </button>
+        );
       }
 
       var disabled = true;
@@ -107,10 +104,11 @@ var ConsentStatus = React.createClass(
           if (this.state.formData[consent] === "yes") {
             dateRequired[i] = true;
           }
-          if (this.state.formData[withdrawal] !== null &&
-                        this.state.formData[withdrawal] !== undefined
-                    ) {
+
+          if (this.state.formData[withdrawal]) {
             withdrawalRequired[i] = true;
+          } else {
+            withdrawalRequired[i] = false;
           }
           i++;
         }

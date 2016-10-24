@@ -15,7 +15,7 @@
 if (isset($_POST['tab'])) {
     $tab = $_POST['tab'];
 
-    $db   =& Database::singleton();
+    $db =& Database::singleton();
     $user =& User::singleton();
 
     if ($tab == "candidateInfo") {
@@ -35,7 +35,6 @@ if (isset($_POST['tab'])) {
         exit;
     }
 }
-
 
 
 /**
@@ -60,16 +59,16 @@ function editCandInfoFields($db, $user)
     // Process posted data
     $caveatEmptor = isset($_POST['flaggedCaveatemptor']) ?
         $_POST['flaggedCaveatemptor'] : null;
-    $reason       = isset($_POST['flaggedReason']) ?
+    $reason = isset($_POST['flaggedReason']) ?
         $_POST['flaggedReason'] : null;
-    $other        = isset($_POST['flaggedOther']) ?
+    $other = isset($_POST['flaggedOther']) ?
         $_POST['flaggedOther'] : null;
 
     $updateValues = [
-                     'flagged_caveatemptor' => $caveatEmptor,
-                     'flagged_reason'       => $reason,
-                     'flagged_other'        => $other,
-                    ];
+        'flagged_caveatemptor' => $caveatEmptor,
+        'flagged_reason'       => $reason,
+        'flagged_other'        => $other,
+    ];
 
     $db->update('candidate', $updateValues, ['CandID' => $candID]);
 
@@ -79,20 +78,20 @@ function editCandInfoFields($db, $user)
                 $ptid = substr($field, 4);
 
                 $updateValues = [
-                                 'ParameterTypeID' => $ptid,
-                                 'CandID'          => $candID,
-                                 'Value'           => $_POST[$field],
-                                 'InsertTime'      => time(),
-                                ];
+                    'ParameterTypeID' => $ptid,
+                    'CandID'          => $candID,
+                    'Value'           => $_POST[$field],
+                    'InsertTime'      => time(),
+                ];
 
                 $result = $db->pselectOne(
                     'SELECT * from parameter_candidate 
                     WHERE CandID=:cid 
                     AND ParameterTypeID=:ptid',
-                    array(
-                     'cid'  => $candID,
-                     'ptid' => $ptid,
-                    )
+                    [
+                        'cid'  => $candID,
+                        'ptid' => $ptid,
+                    ]
                 );
 
                 if (empty($result)) {
@@ -102,8 +101,8 @@ function editCandInfoFields($db, $user)
                         'parameter_candidate',
                         $updateValues,
                         [
-                         'CandID'          => $candID,
-                         'ParameterTypeID' => $ptid,
+                            'CandID'          => $candID,
+                            'ParameterTypeID' => $ptid,
                         ]
                     );
                 }
@@ -133,12 +132,12 @@ function editProbandInfoFields($db, $user)
 
     // Process posted data
     $gender = isset($_POST['ProbandGender']) ? $_POST['ProbandGender'] : null;
-    $dob    = isset($_POST['ProbandDoB']) ? $_POST['ProbandDoB'] : null;
+    $dob = isset($_POST['ProbandDoB']) ? $_POST['ProbandDoB'] : null;
 
     $updateValues = [
-                     'ProbandGender' => $gender,
-                     'ProbandDoB'    => $dob,
-                    ];
+        'ProbandGender' => $gender,
+        'ProbandDoB'    => $dob,
+    ];
 
     $db->update('candidate', $updateValues, ['CandID' => $candID]);
 }
@@ -165,31 +164,31 @@ function editFamilyInfoFields($db, $user)
     // Process posted data
     $siblingCandID = isset($_POST['FamilyCandID']) ?
         $_POST['FamilyCandID'] : null;
-    $relationship  = isset($_POST['Relationship_type']) ?
+    $relationship = isset($_POST['Relationship_type']) ?
         $_POST['Relationship_type'] : null;
 
     $familyID = $db->pselectOne(
         "SELECT FamilyID from family WHERE CandID=:candid",
-        array('candid' => $candID)
+        ['candid' => $candID]
     );
 
     // Add new candidate
     if ($siblingCandID != null) {
 
         $updateValues = [
-                         'CandID'            => $siblingCandID,
-                         'Relationship_type' => $relationship,
-                         'FamilyID'          => $familyID,
-                        ];
+            'CandID'            => $siblingCandID,
+            'Relationship_type' => $relationship,
+            'FamilyID'          => $familyID,
+        ];
 
         if ($familyID != null) {
 
             $siblingID = $db->pselectOne(
                 "SELECT ID from family WHERE CandID=:candid and FamilyID=:familyid",
-                array(
-                 'candid'   => $siblingCandID,
-                 'familyid' => $familyID,
-                )
+                [
+                    'candid'   => $siblingCandID,
+                    'familyid' => $familyID,
+                ]
             );
 
             if ($siblingID == null) {
@@ -198,9 +197,9 @@ function editFamilyInfoFields($db, $user)
                 $db->update('family', $updateValues, ['ID' => $siblingID]);
             }
         } else {
-            $familyID    = $db->pselectOne(
+            $familyID = $db->pselectOne(
                 "SELECT max(FamilyID) from family",
-                array()
+                []
             );
             $newFamilyID = $familyID + 1;
 
@@ -213,29 +212,29 @@ function editFamilyInfoFields($db, $user)
     }
 
     // Update existing candidates
-    $i            = 1;
+    $i = 1;
     $familyCandID = 'FamilyCandID' . $i;
     $relationshipType = 'Relationship_type' . $i;
-    $siblingCandID    = isset($_POST[$familyCandID]) ?
+    $siblingCandID = isset($_POST[$familyCandID]) ?
         $_POST[$familyCandID] : null;
-    $relationship     = isset($_POST[$relationshipType]) ?
+    $relationship = isset($_POST[$relationshipType]) ?
         $_POST[$relationshipType] : null;
 
-    while ($siblingCandID != null ) {
+    while ($siblingCandID != null) {
 
         $siblingID = $db->pselectOne(
             "SELECT ID from family WHERE CandID=:candid and FamilyID=:familyid",
-            array(
-             'candid'   => $siblingCandID,
-             'familyid' => $familyID,
-            )
+            [
+                'candid'   => $siblingCandID,
+                'familyid' => $familyID,
+            ]
         );
 
         $updateValues = [
-                         'CandID'            => $siblingCandID,
-                         'Relationship_type' => $relationship,
-                         'FamilyID'          => $familyID,
-                        ];
+            'CandID'            => $siblingCandID,
+            'Relationship_type' => $relationship,
+            'FamilyID'          => $familyID,
+        ];
 
         $db->update('family', $updateValues, ['ID' => $siblingID]);
 
@@ -260,20 +259,20 @@ function deleteFamilyMember($db, $user)
         exit;
     }
 
-    $candID         = $_POST['candID'];
+    $candID = $_POST['candID'];
     $familyMemberID = $_POST['familyDCCID'];
 
     $familyID = $db->pselectOne(
         'SELECT FamilyID 
         FROM family 
         WHERE CandID=:cid',
-        array('cid' => $candID)
+        ['cid' => $candID]
     );
 
     $where = [
-              'FamilyID' => $familyID,
-              'CandID'   => $familyMemberID,
-             ];
+        'FamilyID' => $familyID,
+        'CandID'   => $familyMemberID,
+    ];
 
     $db->delete('family', $where);
 
@@ -299,30 +298,30 @@ function editParticipantStatusFields($db, $user)
     $candID = $_POST['candID'];
 
     // Process posted data
-    $status    = isset($_POST['participant_status']) ?
+    $status = isset($_POST['participant_status']) ?
         $_POST['participant_status'] : null;
     $suboption = isset($_POST['participant_suboptions']) ?
         $_POST['participant_suboptions'] : null;
-    $reason    = isset($_POST['reason_specify']) ?
+    $reason = isset($_POST['reason_specify']) ?
         $_POST['reason_specify'] : null;
 
     $id = null;
     if (!(is_null($_SESSION['State']))) {
         $currentUser =& User::singleton($_SESSION['State']->getUsername());
-        $id          = $currentUser->getData("UserID");
+        $id = $currentUser->getData("UserID");
     }
 
     $updateValues = [
-                     'participant_status'     => $status,
-                     'participant_suboptions' => $suboption,
-                     'reason_specify'         => $reason,
-                     'CandID'                 => $candID,
-                     'entry_staff'            => $id,
-                    ];
+        'participant_status'     => $status,
+        'participant_suboptions' => $suboption,
+        'reason_specify'         => $reason,
+        'CandID'                 => $candID,
+        'entry_staff'            => $id,
+    ];
 
     $exists = $db->pselectOne(
         "SELECT * from participant_status WHERE CandID=:candid",
-        array('candid' => $candID)
+        ['candid' => $candID]
     );
 
     if ($exists === null || empty($exists)) {
@@ -355,63 +354,60 @@ function editConsentStatusFields($db, $user)
         exit;
     }
 
-    $candID = $_POST['candID'];
+    $candIDParam = $_POST['candID'];
+    $candID = (isset($candIDParam) && $candIDParam !== "null") ? $candIDParam : null;
 
     $id = null;
     if (!(is_null($_SESSION['State']))) {
         $currentUser =& User::singleton($_SESSION['State']->getUsername());
-        $id          = $currentUser->getData("UserID");
+        $id = $currentUser->getData("UserID");
     }
 
-    $config  =& NDB_Config::singleton();
+    $config =& NDB_Config::singleton();
     $consent = $config->getSetting('ConsentModule');
 
     foreach (Utility::asArray($consent['Consent']) as $consentType) {
-        $toUpdate = false;
+
+        $consentName = $_POST[$consentType['name']];
+        $consentDate = $_POST[$consentType['name'] . '_date'];
+        $consentWithdrawal = $_POST[$consentType['name'] . '_withdrawal'];
 
         // Process posted data
-        $consent    = isset($_POST[$consentType['name']]) ?
-            $_POST[$consentType['name']] : null;
-        $date       = isset($_POST[$consentType['name'] . '_date']) ?
-            $_POST[$consentType['name'] . '_date'] : null;
-        $withdrawal = isset($_POST[$consentType['name'] . '_withdrawal']) ?
-            $_POST[$consentType['name'] . '_withdrawal'] : null;
+        $consent = (isset($consentName) && $consentName !== "null") ?
+            $consentName : null;
+        $date = (isset($consentDate) && $consentDate !== "null") ?
+            $consentDate : null;
+        $withdrawal = (isset($consentWithdrawal) && $consentWithdrawal !== "null") ?
+            $consentWithdrawal : null;
+
 
         $updateValues = [
-                         'CandID'      => $candID,
-                         'entry_staff' => $id,
-                        ];
+            'CandID'                               => $candID,
+            'entry_staff'                          => $id,
+            $consentType['name']                   => $consent,
+            ($consentType['name'] . '_date')       => $date,
+            ($consentType['name'] . '_withdrawal') => $withdrawal
+        ];
 
-        if ($consent != null) {
-            $updateValues[$consentType['name']] = $consent;
-            $toUpdate = true;
-        }
-        if ($date != null) {
-            $updateValues[$consentType['name'] . '_date'] = $date;
-            $toUpdate = true;
-        }
-        if ($withdrawal != null) {
-            $updateValues[$consentType['name'] . '_withdrawal'] = $withdrawal;
-            $toUpdate = true;
-        }
+        $newRecord = true;
 
-        if ($toUpdate) {
+        if ($candID) {
             $exists = $db->pselectOne(
                 "SELECT * from participant_status WHERE CandID=:candid",
-                array('candid' => $candID)
+                ['candid' => $candID]
             );
-
-            if ($exists === null || empty($exists)) {
-                $db->insert('participant_status', $updateValues);
-            } else {
-                $db->update(
-                    'participant_status',
-                    $updateValues,
-                    ['CandID' => $candID]
-                );
+            if ($exists && count($exists) > 0) {
+                $newRecord = false;
             }
-
-            $db->insert('consent_info_history', $updateValues);
         }
+
+        if ($newRecord) {
+            $db->insert('participant_status', $updateValues);
+        } else {
+            $db->update('participant_status', $updateValues, ['CandID' => $candID]);
+        }
+
+        $db->insert('consent_info_history', $updateValues);
+
     }
 }
