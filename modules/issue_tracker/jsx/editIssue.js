@@ -114,6 +114,17 @@ var IssueEditForm = React.createClass({
         );
     }
 
+    var filterTable;
+    if (this.state.FilterForm) {
+      filterTable = (
+        <FilterTable
+          Module="dicom_archive"
+          formElements={this.state.FilterForm}
+          onUserInput={this.setFormData}
+        />
+      );
+    }
+
     var alertMessage = "";
     var alertClass = "alert text-center hide";
     var hasEditPermission = (
@@ -474,6 +485,7 @@ var IssueEditForm = React.createClass({
 
         that.setState({
           Data: data,
+          FilterForm: data.FilterForm,
           isLoaded: true,
           issueData: data.issueData,
           formData: data.issueData

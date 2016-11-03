@@ -136,6 +136,15 @@ var IssueEditForm = React.createClass({
       );
     }
 
+    var filterTable;
+    if (this.state.FilterForm) {
+      filterTable = React.createElement(FilterTable, {
+        Module: "dicom_archive",
+        formElements: this.state.FilterForm,
+        onUserInput: this.setFormData
+      });
+    }
+
     var alertMessage = "";
     var alertClass = "alert text-center hide";
     var hasEditPermission = this.state.Data.hasEditPermission || this.state.Data.isOwnIssue || this.state.isNewIssue;
@@ -531,6 +540,7 @@ var IssueEditForm = React.createClass({
 
         that.setState({
           Data: data,
+          FilterForm: data.FilterForm,
           isLoaded: true,
           issueData: data.issueData,
           formData: data.issueData

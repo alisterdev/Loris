@@ -193,24 +193,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
-                    <div>
-                        <!--  title table with pagination -->
-                        <table id="LogEntries" border="0" valign="bottom" width="100%">
-                            <tr>
-                                <!-- display pagination links -->
-                                <td align="right" id="pageLinks"></td>
-                            </tr>
-                        </table>
-                        <div id="datatable">
-                            <script>
-                                var table = RDynamicDataTable({
-                                    "DataURL": "{$baseurl}/issue_tracker/?format=json",
-                                    "getFormattedCell": formatColumn
-                                });
-                                React.render(table, document.getElementById("datatable"));
-                            </script>
-                        </div>
-                    </div>
+                  <div id="page-active-issues"></div>
                 </div>
             </div>
         </div>

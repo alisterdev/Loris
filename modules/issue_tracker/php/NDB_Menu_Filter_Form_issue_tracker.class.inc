@@ -234,50 +234,51 @@ WHERE Parent IS NOT NULL ORDER BY Label",
                         'addEmptyOption' => true,
                        );
 
-        $this->addBasicText(
-            'keyword',
-            'Keyword',
-            array(
-             "size"      => 10,
-             "maxlength" => 50,
-            )
-        );
-        $this->addBasicText(
-            'issueID',
-            'Issue ID',
-            array(
-             "size"      => 10,
-             "maxlength" => 25,
-            )
-        );
+        $basicTextOptions = [
+            'size' => 10,
+            'maxlength' => 25
+        ];
+
+        $this->addBasicText('keyword', 'Keyword', ['size' => 10, 'maxlength' => 50]);
+        $this->addBasicText('issueID', 'Issue ID', $basicTextOptions);
+        $this->addSelect('status', 'Status', $statuses);
+
         $this->addSelect('module', 'Module', $modules);
         $this->addSelect('category', 'Category', $categories);
-        $this->addBasicText(
-            'PSCID',
-            'PSCID',
-            array(
-             "size"      => 10,
-             "maxlength" => 25,
-            )
-        );
-        $this->addBasicText(
-            'visitLabel',
-            'Visit Label',
-            array(
-             'size'      => "5",
-             "maxlength" => "15",
-            )
-        );
+        $this->addSelect('priority', 'Priority', $priorities);
+
         $this->addSelect('site', 'Site', $list_of_sites);
         $this->addSelect('reporter', 'Reporter', $reporters);
         $this->addSelect('assignee', 'Assignee', $assignees);
-        $this->addSelect('priority', 'Priority', $priorities);
-        $this->addSelect('status', 'Status', $statuses);
+
         $this->addBasicDate('minDate', 'Created After', $dateOptions);
         $this->addBasicDate('maxDate', 'Created Before', $dateOptions);
-        $this->addCheckbox('watching', 'Watching', array('value' => '1'));
+        $this->addSelect('watching', 'Watching', array('0' => 'No', '1' => 'Yes'));
+
+        $this->addBasicText('PSCID', 'PSCID', $basicTextOptions);
+        $this->addBasicText(
+            'visitLabel',
+            'Visit Label',
+            ['size' => '5', 'maxlength' => '15']
+        );
 
         $this->tpl_data['backURL'] = $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Converts the results of this menu filter to a JSON format to be retrieved
+     * with ?format=json
+     *
+     * @return a json encoded string of the headers and data from this table
+     */
+    function toJSON()
+    {
+        $result = $this->toArray();
+        // IMPORTANT: simcple array needs to be returned,
+        // in order to guarantee the display order of form elements
+        $result['FilterForm'] = array_values($this->form->form);
+
+        return json_encode($result);
     }
 
 
@@ -380,7 +381,11 @@ WHERE Parent IS NOT NULL ORDER BY Label",
         $baseurl = $factory->settings()->getBaseURL();
         return array_merge(
             parent::getJSDependencies(),
-            array($baseurl . "/issue_tracker/js/columnFormatter.js")
+            array(
+                $baseurl . "/issue_tracker/js/columnFormatter.js",
+                $baseurl . "/issue_tracker/js/issue_tracker.js",
+                $baseurl . "/js/util/queryString.js",
+            )
         );
     }
 }
