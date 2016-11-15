@@ -13,7 +13,6 @@
  * Displays a set of data that is receives via props.
  */
 var StaticDataTable = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
   propTypes: {
     Headers: React.PropTypes.array.isRequired,
     Data: React.PropTypes.array.isRequired,
@@ -33,27 +32,27 @@ var StaticDataTable = React.createClass({
       }
     }
 
-        // Retrieve module preferences
+    // Retrieve module preferences
     var modulePrefs = JSON.parse(localStorage.getItem('modulePrefs'));
 
-        // Init modulePrefs object
+    // Init modulePrefs object
     if (modulePrefs === null) {
       modulePrefs = {};
     }
 
-        // Init modulePrefs for current module
+    // Init modulePrefs for current module
     if (modulePrefs[loris.TestName] === undefined) {
       modulePrefs[loris.TestName] = {};
       modulePrefs[loris.TestName].rowsPerPage = this.state.RowsPerPage;
     }
 
-        // Set rows per page
+    // Set rows per page
     var rowsPerPage = modulePrefs[loris.TestName].rowsPerPage;
     this.setState({
       RowsPerPage: rowsPerPage
     });
 
-        // Make prefs accesible within component
+    // Make prefs accesible within component
     this.modulePrefs = modulePrefs;
   },
   componentDidUpdate: function() {
@@ -227,7 +226,7 @@ var StaticDataTable = React.createClass({
     }
     var rowsPerPage = this.state.RowsPerPage;
     var headers = [
-      <th onClick={this.setSortColumn(-1)}>
+      <th key="-1" onClick={this.setSortColumn(-1)}>
         {this.props.RowNumLabel}
       </th>
     ];
@@ -236,20 +235,21 @@ var StaticDataTable = React.createClass({
         loris.hiddenHeaders.indexOf(this.props.Headers[i]) === -1) {
         if (this.props.Headers[i] === this.props.freezeColumn) {
           headers.push(
-            <th id={this.props.freezeColumn}
+            <th key={i} id={this.props.freezeColumn}
                 onClick={this.setSortColumn(i)}>
               {this.props.Headers[i]}
             </th>
           );
         } else {
           headers.push(
-            <th onClick={this.setSortColumn(i)}>
+            <th key={i} onClick={this.setSortColumn(i)}>
               {this.props.Headers[i]}
             </th>
           );
         }
       }
     }
+
     var rows = [];
     var curRow = [];
     var index = [];
@@ -347,19 +347,18 @@ var StaticDataTable = React.createClass({
             this.props.Data[index[i].RowIdx],
             this.props.Headers
           );
-          curRow.push({data});
-        } else {
-          curRow.push(<td>{data}</td>);
         }
+        curRow.push(<td key={j}>{data}</td>);
       }
 
-            // Only display a row if all filter values have been matched
+      // Only display a row if all filter values have been matched
       if (Object.keys(this.props.Filter).length === filterMatchCount) {
         matchesFound++;
         if (matchesFound > currentPageRow) {
+          var rowNumber = index[i].Content;
           rows.push(
-            <tr colSpan={headers.length}>
-              <td>{index[i].Content}</td>
+            <tr key={"row_" + rowNumber} colSpan={headers.length}>
+              <td key="-1">{rowNumber}</td>
               {curRow}
             </tr>
           );

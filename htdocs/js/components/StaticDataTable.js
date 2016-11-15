@@ -17,7 +17,6 @@
 var StaticDataTable = React.createClass({
   displayName: "StaticDataTable",
 
-  mixins: [React.addons.PureRenderMixin],
   propTypes: {
     Headers: React.PropTypes.array.isRequired,
     Data: React.PropTypes.array.isRequired,
@@ -230,7 +229,7 @@ var StaticDataTable = React.createClass({
     var rowsPerPage = this.state.RowsPerPage;
     var headers = [React.createElement(
       "th",
-      { onClick: this.setSortColumn(-1) },
+      { key: "-1", onClick: this.setSortColumn(-1) },
       this.props.RowNumLabel
     )];
     for (var _i = 0; _i < this.props.Headers.length; _i += 1) {
@@ -238,19 +237,20 @@ var StaticDataTable = React.createClass({
         if (this.props.Headers[_i] === this.props.freezeColumn) {
           headers.push(React.createElement(
             "th",
-            { id: this.props.freezeColumn,
+            { key: _i, id: this.props.freezeColumn,
               onClick: this.setSortColumn(_i) },
             this.props.Headers[_i]
           ));
         } else {
           headers.push(React.createElement(
             "th",
-            { onClick: this.setSortColumn(_i) },
+            { key: _i, onClick: this.setSortColumn(_i) },
             this.props.Headers[_i]
           ));
         }
       }
     }
+
     var rows = [];
     var curRow = [];
     var index = [];
@@ -340,27 +340,26 @@ var StaticDataTable = React.createClass({
         // Get custom cell formatting if available
         if (this.props.getFormattedCell) {
           data = this.props.getFormattedCell(this.props.Headers[j], data, this.props.Data[index[_i2].RowIdx], this.props.Headers);
-          curRow.push({ data: data });
-        } else {
-          curRow.push(React.createElement(
-            "td",
-            null,
-            data
-          ));
         }
+        curRow.push(React.createElement(
+          "td",
+          { key: j },
+          data
+        ));
       }
 
       // Only display a row if all filter values have been matched
       if (Object.keys(this.props.Filter).length === filterMatchCount) {
         matchesFound++;
         if (matchesFound > currentPageRow) {
+          var rowNumber = index[_i2].Content;
           rows.push(React.createElement(
             "tr",
-            { colSpan: headers.length },
+            { key: "row_" + rowNumber, colSpan: headers.length },
             React.createElement(
               "td",
-              null,
-              index[_i2].Content
+              { key: "-1" },
+              rowNumber
             ),
             curRow
           ));
