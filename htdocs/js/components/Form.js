@@ -1,5 +1,13 @@
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 /* exported FormElement, SelectElement, TextareaElement, TextboxElement, DateElement,
 NumericElement, FileElement, HelpTextElement, StaticElement, ButtonElement
 */
@@ -830,44 +838,52 @@ var HelpTextElement = React.createClass({
  * Static element component.
  * Used to displays plain/formatted text as part of a form
  */
-var StaticElement = React.createClass({
-  displayName: 'StaticElement',
 
+var StaticElement = function (_React$PureComponent) {
+  _inherits(StaticElement, _React$PureComponent);
 
-  mixins: [React.addons.PureRenderMixin],
-  propTypes: {
-    label: React.PropTypes.string,
-    text: React.PropTypes.string.isRequired
-  },
+  function StaticElement() {
+    _classCallCheck(this, StaticElement);
 
-  getDefaultProps: function getDefaultProps() {
-    return {
-      label: '',
-      text: null
-    };
-  },
-
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'row form-group' },
-      React.createElement(
-        'label',
-        { className: 'col-sm-3 control-label' },
-        this.props.label
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-sm-9' },
-        React.createElement(
-          'p',
-          { className: 'form-control-static' },
-          this.props.text
-        )
-      )
-    );
+    return _possibleConstructorReturn(this, (StaticElement.__proto__ || Object.getPrototypeOf(StaticElement)).apply(this, arguments));
   }
-});
+
+  _createClass(StaticElement, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'row form-group' },
+        React.createElement(
+          'label',
+          { className: 'col-sm-3 control-label' },
+          this.props.label
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-sm-9' },
+          React.createElement(
+            'p',
+            { className: 'form-control-static' },
+            this.props.text
+          )
+        )
+      );
+    }
+  }]);
+
+  return StaticElement;
+}(React.PureComponent);
+
+StaticElement.defaultProps = {
+  label: '',
+  text: null
+};
+
+StaticElement.propTypes = {
+  label: React.PropTypes.string,
+  text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]).isRequired
+};
 
 /**
  * Button component

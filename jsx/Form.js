@@ -726,22 +726,8 @@ var HelpTextElement = React.createClass({
  * Static element component.
  * Used to displays plain/formatted text as part of a form
  */
-var StaticElement = React.createClass({
-
-  mixins: [React.addons.PureRenderMixin],
-  propTypes: {
-    label: React.PropTypes.string,
-    text: React.PropTypes.string.isRequired
-  },
-
-  getDefaultProps: function() {
-    return {
-      label: '',
-      text: null
-    };
-  },
-
-  render: function() {
+class StaticElement extends React.PureComponent {
+  render() {
     return (
       <div className="row form-group">
         <label className="col-sm-3 control-label">
@@ -753,7 +739,20 @@ var StaticElement = React.createClass({
       </div>
     );
   }
-});
+}
+
+StaticElement.defaultProps = {
+  label: '',
+  text: null
+};
+
+StaticElement.propTypes = {
+  label: React.PropTypes.string,
+  text: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.array
+  ]).isRequired
+};
 
 /**
  * Button component
