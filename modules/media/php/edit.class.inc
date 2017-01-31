@@ -20,7 +20,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  * @link     https://www.github.com/aces/CCNA/
  */
-class NDB_Form_Media extends NDB_Form
+class Edit extends \NDB_Form
 {
     /**
      * Entry point for /media/edit/
@@ -32,8 +32,8 @@ class NDB_Form_Media extends NDB_Form
      */
     function edit()
     {
-        $db      =& Database::singleton();
-        $factory = NDB_Factory::singleton();
+        $db      =& \Database::singleton();
+        $factory = \NDB_Factory::singleton();
         $baseURL = $factory->settings()->getBaseURL();
 
         $idMediaFile = $_GET['id'];
@@ -60,7 +60,7 @@ class NDB_Form_Media extends NDB_Form
      */
     function getCSSDependencies()
     {
-        $factory = NDB_Factory::singleton();
+        $factory = \NDB_Factory::singleton();
         $baseURL = $factory->settings()->getBaseURL();
         $deps    = parent::getCSSDependencies();
         return array_merge(
@@ -77,7 +77,7 @@ class NDB_Form_Media extends NDB_Form
      */
     function getJSDependencies()
     {
-        $factory = NDB_Factory::singleton();
+        $factory = \NDB_Factory::singleton();
         $baseURL = $factory->settings()->getBaseURL();
         $deps    = parent::getJSDependencies();
         return array_merge(
@@ -95,7 +95,7 @@ class NDB_Form_Media extends NDB_Form
     function _hasAccess()
     {
         //create user object
-        $user =& User::singleton();
+        $user =& \User::singleton();
 
         return $user->hasPermission('media_write');
     }

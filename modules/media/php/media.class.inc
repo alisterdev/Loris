@@ -11,6 +11,8 @@
  * @link     https://www.github.com/aces/CCNA/
  */
 
+namespace LORIS\media;
+
 /**
  * Main class for media module corresponding to /media/ URL
  * Child or Clinical section of the LorisMenu.
@@ -26,7 +28,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  * @link     https://www.github.com/aces/CCNA/
  */
-class NDB_Menu_Filter_Media extends NDB_Menu_Filter
+class Media extends \NDB_Menu_Filter
 {
     public $hasWritePermission = false;
 
@@ -39,7 +41,8 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
     function _hasAccess()
     {
         //create user object
-        $user =& User::singleton();
+        $user =& \User::singleton();
+
 
         // Set global permission to control access to different modules of media page
         $this->hasWritePermission = $user->hasPermission('media_write');
@@ -57,11 +60,11 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
      */
     function _setFilterForm()
     {
-        $user =& User::singleton();
-        $db   = Database::singleton();
+        $user =& \User::singleton();
+        $db   = \Database::singleton();
 
-        $siteList  = Utility::getSiteList(false);
-        $visitList = [null => 'Any'] + Utility::getVisitList();
+        $siteList  = \Utility::getSiteList(false);
+        $visitList = [null => 'Any'] + \Utility::getVisitList();
 
         // allow to view all sites data through filter
         if ($user->hasPermission('access_all_profiles')) {
@@ -71,7 +74,7 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
             }
         } else {
             // allow only to view own site data
-            $site =& Site::singleton($user->getData('CenterID'));
+            $site =& \Site::singleton($user->getData('CenterID'));
             if ($site->isStudySite()) {
                 $siteList = [$user->getData('CenterID') => $user->getData('Site')];
             }
@@ -88,12 +91,13 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
 
         // Form Elements
         $this->addBasicText('pscid', 'PSCID:', ["size" => 9, "maxlength" => 7]);
+
         $this->addSelect('instrument', 'Instrument:', $instrumentList);
         $this->addSelect('visit_label', 'Visit Label:', $visitList);
         $this->addSelect('for_site', 'For Site:', $siteList);
 
         $this->tpl_data["hasWritePermission"] = $this->hasWritePermission;
-
+        $this->tpl_data["form"] = $this->form->toArray();
         return true;
     }
 
@@ -147,7 +151,6 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
 
         // Set header as hidden from the data table
         $this->tpl_data['hiddenHeaders'] = json_encode(['Cand ID', 'Session ID']);
-
         // Add Edit field if user has permissions
         if ($this->hasWritePermission) {
             array_push($this->headers, 'Edit Metadata');
@@ -177,7 +180,7 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
      */
     function getCSSDependencies()
     {
-        $factory = NDB_Factory::singleton();
+        $factory = \NDB_Factory::singleton();
         $baseURL = $factory->settings()->getBaseURL();
         $deps    = parent::getCSSDependencies();
         return array_merge(
@@ -195,7 +198,7 @@ class NDB_Menu_Filter_Media extends NDB_Menu_Filter
      */
     function getJSDependencies()
     {
-        $factory = NDB_Factory::singleton();
+        $factory = \NDB_Factory::singleton();
         $baseURL = $factory->settings()->getBaseURL();
         $deps    = parent::getJSDependencies();
         return array_merge(
