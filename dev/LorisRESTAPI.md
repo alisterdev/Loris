@@ -3,7 +3,7 @@ layout: default
 title: Loris API
 description:
 group: dev
-permalink: /api/
+permalink: /api/0.02/
 ---
 
 # Loris API - v0.0.2
