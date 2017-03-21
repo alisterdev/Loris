@@ -880,7 +880,7 @@
             }
           }
         }
-      },
+      }
     },
     "/candidates/{candid}/{visit}/uploads/{imaging_file}": {
       "put": {
