@@ -161,7 +161,7 @@
                         </li>
                         <li class="nav">
                             <a href="#" data-toggle="tooltip" title="{$user.SitesTooltip}" style="padding-right:25px;">
-                                Site Associations: {$userNumSites} 
+                                Site Affiliations: {$userNumSites} 
                             </a>
                         </li>
 
